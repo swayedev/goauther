@@ -20,3 +20,32 @@ type RefreshToken struct {
 	Revoked       bool      `json:"revoked"`
 	ExpiresAt     time.Time `json:"expires_at"`
 }
+
+GenerateAccessToken(data *server.AccessData, generaterefresh bool) (accesstoken string, refreshtoken string, err error) {
+	// generate JWT access token
+
+	token := jwt.NewWithClaims(jwt.SigningMethodRS256, jwt.MapClaims{
+		"cid": data.Client.GetId(),
+		"exp": data.ExpireAt().Unix(),
+	})
+
+	accesstoken, err = token.SignedString(c.PrivateKey)
+	if err != nil {
+		return "", "", err
+	}
+
+	if !generaterefresh {
+		return
+	}
+
+	// generate JWT refresh token
+	token = jwt.NewWithClaims(jwt.SigningMethodRS256, jwt.MapClaims{
+		"cid": data.Client.GetId(),
+	})
+
+	refreshtoken, err = token.SignedString(c.PrivateKey)
+	if err != nil {
+		return "", "", err
+	}
+	return
+}

@@ -81,9 +81,9 @@ func checkKeyType(pemKey []byte) (string, error) {
 
 	switch key.(type) {
 	case *rsa.PublicKey:
-		return "RSA", nil
+		return "rsa", nil
 	case ed25519.PublicKey:
-		return "ED25519", nil
+		return "ed25519", nil
 	default:
 		return "", errors.New("unknown key type")
 	}

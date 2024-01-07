@@ -1,12 +1,16 @@
 package models
 
+import "github.com/swayedev/oauth/parser"
+
 type Certificate interface {
 	SetPrivateKey(privateKey []byte)
 	GetPrivateKey() []byte
 	GetPrivateKeyString() string
+	ParsePrivateKey() (any, error)
 	SetPublicKey(publicKey []byte)
 	GetPublicKey() []byte
 	GetPublicKeyString() string
+	ParsePublicKey() (any, error)
 	SetType(t string)
 	GetType() string
 }
@@ -42,4 +46,12 @@ func (c *CertificateKey) SetType(t string) {
 }
 func (c *CertificateKey) GetType() string {
 	return c.algorithm
+}
+
+func (c *CertificateKey) ParsePrivateKey() (any, error) {
+	return parser.ParsePemPrivateKey(c.privateKey)
+}
+
+func (c *CertificateKey) ParsePublicKey() (any, error) {
+	return parser.ParsePemPublicKey(c.publicKey)
 }

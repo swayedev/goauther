@@ -6,7 +6,7 @@ func GenerateCertificate(algorithm string) (cert models.Certificate, err error) 
 	switch algorithm {
 	case "RSA":
 		// Generate RSA key
-		privateKey, publicKey, err := GenerateRsaKeys()
+		privateKey, publicKey, err := GenerateRsaPemKeys()
 		if err != nil {
 			return nil, err
 		}
@@ -19,7 +19,7 @@ func GenerateCertificate(algorithm string) (cert models.Certificate, err error) 
 
 		return cert, nil
 	case "ED25519":
-		privateKey, publicKey, err := GenerateEd25519Keys()
+		privateKey, publicKey, err := GenerateEd25519PemKeys()
 		if err != nil {
 			return nil, err
 		}

@@ -4,10 +4,10 @@ import (
 	"testing"
 )
 
-func TestGenerateRsaKeys(t *testing.T) {
-	privateKey, publicKey, err := GenerateRsaKeys()
+func TestGenerateRsaPemKeys(t *testing.T) {
+	privateKey, publicKey, err := GenerateRsaPemKeys()
 	if err != nil {
-		t.Errorf("GenerateRsaKeys() returned an error: %v", err)
+		t.Errorf("GenerateRsaPemKeys() returned an error: %v", err)
 	}
 
 	// TODO: Add assertions to validate the generated keys
@@ -16,10 +16,10 @@ func TestGenerateRsaKeys(t *testing.T) {
 
 	// Example assertion:
 	if len(privateKey) == 0 {
-		t.Errorf("GenerateRsaKeys() returned an empty private key")
+		t.Errorf("GenerateRsaPemKeys() returned an empty private key")
 	}
 
 	if len(publicKey) == 0 {
-		t.Errorf("GenerateRsaKeys() returned an empty public key")
+		t.Errorf("GenerateRsaPemKeys() returned an empty public key")
 	}
 }

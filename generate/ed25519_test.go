@@ -7,10 +7,10 @@ import (
 	"testing"
 )
 
-func TestGenerateEd25519Keys(t *testing.T) {
-	privateKey, publicKey, err := GenerateEd25519Keys()
+func TestGenerateEd25519PemKeys(t *testing.T) {
+	privateKey, publicKey, err := GenerateEd25519PemKeys()
 	if err != nil {
-		t.Errorf("GenerateEd25519Keys() returned an error: %v", err)
+		t.Errorf("GenerateEd25519PemKeys() returned an error: %v", err)
 	}
 
 	// Decode the private key from PEM format

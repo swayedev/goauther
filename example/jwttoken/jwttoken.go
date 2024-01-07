@@ -8,30 +8,15 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/golang-jwt/jwt"
 	"github.com/openshift/osin"
+	"github.com/swayedev/oauth/config"
 	"github.com/swayedev/oauth/example"
-	"github.com/swayedev/oauth/generate"
 	"github.com/swayedev/oauth/server"
 )
 
 func main() {
 	server := server.NewServer(server.NewServerConfig(), example.NewTestStorage())
-
-	var err error
-	var accessTokenGenJWT generate.AccessTokenGenJWT
-
-	if accessTokenGenJWT.PrivateKey, err = jwt.ParseRSAPrivateKeyFromPEM(privatekeyPEM); err != nil {
-		fmt.Printf("ERROR: %s\n", err)
-		return
-	}
-
-	if accessTokenGenJWT.PublicKey, err = jwt.ParseRSAPublicKeyFromPEM(publickeyPEM); err != nil {
-		fmt.Printf("ERROR: %s\n", err)
-		return
-	}
-
-	server.AccessTokenGen = &accessTokenGenJWT
+	server.Certificate, _ = config.GetCert()
 
 	// Authorization code endpoint
 	http.HandleFunc("/authorize", func(w http.ResponseWriter, r *http.Request) {

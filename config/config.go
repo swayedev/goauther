@@ -1,33 +1,68 @@
-package oauth
+package config
 
-    /*
-    |--------------------------------------------------------------------------
-    | Encryption Keys
-    |--------------------------------------------------------------------------
-    |
-    | Passport uses encryption keys while generating secure access tokens for
-    | your application. By default, the keys are stored as local files but
-    | can be set via environment variables when that is more convenient.
-    |
-    */
+// Encryption Keys
 
-    'private_key' => env('PASSPORT_PRIVATE_KEY'),
+// // CertificateKey struct
+// type CertificateKey struct {
+// 	privateKey string
+// 	publicKey  string
+// 	algorithm  string
+// }
 
-    'public_key' => env('PASSPORT_PUBLIC_KEY'),
+// // Certificate interface
+// type Certificate interface {
+// 	SetPrivateKey(privateKey string)
+// 	SetPublicKey(publicKey string)
+// 	SetType(t string)
+// 	GetPrivateKey() string
+// 	GetPublicKey() string
+// 	GetType() string
+// }
 
+// // Set the private key of the certificate
+// func (c *CertificateKey) SetPrivateKey(privateKey string) {
+// 	c.privateKey = privateKey
+// }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Personal Access Client
-    |--------------------------------------------------------------------------
-    |
-    | If you enable client hashing, you should set the personal access client
-    | ID and unhashed secret within your environment file. The values will
-    | get used while issuing fresh personal access tokens to your users.
-    |
-    */
+// // Set the public key of the certificate
+// func (c *CertificateKey) SetPublicKey(publicKey string) {
+// 	c.publicKey = publicKey
+// }
 
-    'personal_access_client' => [
-        'id' => env('PASSPORT_PERSONAL_ACCESS_CLIENT_ID'),
-        'secret' => env('PASSPORT_PERSONAL_ACCESS_CLIENT_SECRET'),
-    ],
+// // Set the algorithm type of the certificate
+// func (c *CertificateKey) SetType(t string) {
+// 	c.algorithm = t
+// }
+
+// // Get the private key of the certificate
+// func (c *CertificateKey) GetPrivateKey() string {
+// 	return c.privateKey
+// }
+
+// // Get the public key of the certificate
+// func (c *CertificateKey) GetPublicKey() string {
+// 	return c.publicKey
+// }
+
+// // Get the algorithm type of the certificate
+// func (c *CertificateKey) GetType() string {
+// 	return c.algorithm
+// }
+
+// // path of the private key
+
+// /*
+//    |--------------------------------------------------------------------------
+//    | Personal Access Client
+//    |--------------------------------------------------------------------------
+//    |
+//    | If you enable client hashing, you should set the personal access client
+//    | ID and unhashed secret within your environment file. The values will
+//    | get used while issuing fresh personal access tokens to your users.
+//    |
+// */
+
+// // 'personal_access_client' => [
+// //     'id' => env('PASSPORT_PERSONAL_ACCESS_CLIENT_ID'),
+// //     'secret' => env('PASSPORT_PERSONAL_ACCESS_CLIENT_SECRET'),
+// // ],

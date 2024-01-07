@@ -1,27 +1,16 @@
-package oauth
+package main
 
-import "github.com/golang-jwt/jwt/v5"
+import (
+	"github.com/swayedev/oauth/config"
+)
 
-// create client
-
-// create token
-func CreateToken() (string, error) {
-	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"username": "admin",
-		"password": "admin",
-	})
-
-	token, err := claims.SignedString([]byte("secret"))
+func main() {
+	cert, err := config.GetCert()
 	if err != nil {
-		return "", err
+		panic(err)
 	}
 
-	return token, nil
-}
-
-// parse token
-func ParseToken(token string) (*jwt.Token, error) {
-	return jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
-		return []byte("secret"), nil
-	})
+	println("Certificate Type:", cert.GetType())
+	println("Private Key:", cert.GetPrivateKeyString())
+	println("Public Key:", cert.GetPublicKeyString())
 }

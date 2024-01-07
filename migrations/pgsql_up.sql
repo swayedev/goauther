@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS oauth_access_tokens (
     name VARCHAR(255) NULL,
     scopes TEXT NULL,
     revoked BOOLEAN NOT NULL,
-    created_at TIMESTAMP NULL,
-    updated_at TIMESTAMP NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     expires_at TIMESTAMP NULL
 );
 
@@ -43,8 +43,8 @@ CREATE TABLE oauth_clients (
     personal_access_client BOOLEAN NOT NULL,
     password_client BOOLEAN NOT NULL,
     revoked BOOLEAN NOT NULL,
-    created_at TIMESTAMP NULL,
-    updated_at TIMESTAMP NULL
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE INDEX ON oauth_clients (user_id);
@@ -52,6 +52,6 @@ CREATE INDEX ON oauth_clients (user_id);
 CREATE TABLE oauth_personal_access_clients (
     id BIGSERIAL PRIMARY KEY,
     client_id BIGINT NOT NULL,
-    created_at TIMESTAMP NULL,
-    updated_at TIMESTAMP NULL
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );

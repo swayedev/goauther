@@ -8,14 +8,16 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/swayedev/oauth/config"
 	"github.com/swayedev/oauth/example"
 	oauth "github.com/swayedev/oauth/server"
 )
 
 func main() {
-	server := oauth.NewServer(oauth.NewServerConfig(), example.NewTestStorage())
-	server.Certificate, _ = config.GetCert()
+	cfg := oauth.NewServerConfig()
+	cfg.AllowGetAccessRequest = true
+	cfg.AllowClientSecretInParams = true
+
+	server := oauth.NewServer(cfg, example.NewTestStorage())
 
 	// Authorization code endpoint
 	http.HandleFunc("/authorize", func(w http.ResponseWriter, r *http.Request) {
@@ -86,13 +88,13 @@ func main() {
 		jr := make(map[string]interface{})
 
 		// build access code url
-		aurl := fmt.Sprintf("/token?grant_type=authorization_code&client_id=1234&state=xyz&redirect_uri=%s&code=%s",
+		aurl := fmt.Sprintf("/token?grant_type=authorization_code&client_id=1234&client_secret=aabbccdd&state=xyz&redirect_uri=%s&code=%s",
 			url.QueryEscape("http://localhost:14000/appauth/code"), url.QueryEscape(code))
 
 		// if parse, download and parse json
 		if r.FormValue("doparse") == "1" {
 			err := example.DownloadAccessToken(fmt.Sprintf("http://localhost:14000%s", aurl),
-				&oauth.BasicAuth{Username: "1234", Password: "aabbccdd"}, jr)
+				&oauth.BasicAuth{"1234", "aabbccdd"}, jr)
 			if err != nil {
 				w.Write([]byte(err.Error()))
 				w.Write([]byte("<br/>"))
@@ -123,12 +125,3 @@ func main() {
 
 	http.ListenAndServe(":14000", nil)
 }
-
-// type AccessToken struct {
-// 	Id        string    `json:"id"`
-// 	UserId    string    `json:"user_id"`
-// 	ClientId  string    `json:"client_id"`
-// 	Name      string    `json:"name"`
-// 	Scopes    []string  `json:"scope"`
-// 	ExpiresAt time.Time `json:"expires_at"`
-// }

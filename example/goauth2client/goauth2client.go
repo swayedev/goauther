@@ -1,21 +1,34 @@
 package main
 
+// Use golang.org/x/oauth2 client to test
 // Open url in browser:
 // http://localhost:14000/app
 
 import (
 	"fmt"
 	"net/http"
-	"net/url"
 
-	"github.com/swayedev/oauth/config"
 	"github.com/swayedev/oauth/example"
 	oauth "github.com/swayedev/oauth/server"
+	"golang.org/x/oauth2"
 )
 
 func main() {
-	server := oauth.NewServer(oauth.NewServerConfig(), example.NewTestStorage())
-	server.Certificate, _ = config.GetCert()
+	config := oauth.NewServerConfig()
+	// goauth2 checks errors using status codes
+	config.ErrorStatusCode = 401
+
+	server := oauth.NewServer(config, example.NewTestStorage())
+
+	client := &oauth2.Config{
+		ClientID:     "1234",
+		ClientSecret: "aabbccdd",
+		Endpoint: oauth2.Endpoint{
+			AuthURL:  "http://localhost:14000/authorize",
+			TokenURL: "http://localhost:14000/token",
+		},
+		RedirectURL: "http://localhost:14000/appauth/code",
+	}
 
 	// Authorization code endpoint
 	http.HandleFunc("/authorize", func(w http.ResponseWriter, r *http.Request) {
@@ -64,7 +77,8 @@ func main() {
 	// Application home endpoint
 	http.HandleFunc("/app", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("<html><body>"))
-		w.Write([]byte(fmt.Sprintf("<a href=\"/authorize?response_type=code&client_id=1234&state=xyz&scope=everything&redirect_uri=%s\">Login</a><br/>", url.QueryEscape("http://localhost:14000/appauth/code"))))
+		//w.Write([]byte(fmt.Sprintf("<a href=\"/authorize?response_type=code&client_id=1234&state=xyz&scope=everything&redirect_uri=%s\">Login</a><br/>", url.QueryEscape("http://localhost:14000/appauth/code"))))
+		w.Write([]byte(fmt.Sprintf("<a href=\"%s\">Login</a><br/>", client.AuthCodeURL(""))))
 		w.Write([]byte("</body></html>"))
 	})
 
@@ -83,36 +97,27 @@ func main() {
 			return
 		}
 
-		jr := make(map[string]interface{})
-
-		// build access code url
-		aurl := fmt.Sprintf("/token?grant_type=authorization_code&client_id=1234&state=xyz&redirect_uri=%s&code=%s",
-			url.QueryEscape("http://localhost:14000/appauth/code"), url.QueryEscape(code))
+		var jr *oauth2.Token
+		var err error
 
 		// if parse, download and parse json
 		if r.FormValue("doparse") == "1" {
-			err := example.DownloadAccessToken(fmt.Sprintf("http://localhost:14000%s", aurl),
-				&oauth.BasicAuth{Username: "1234", Password: "aabbccdd"}, jr)
+			jr, err = client.Exchange(oauth2.NoContext, code)
 			if err != nil {
-				w.Write([]byte(err.Error()))
-				w.Write([]byte("<br/>"))
+				jr = nil
+				w.Write([]byte(fmt.Sprintf("ERROR: %s<br/>\n", err)))
 			}
 		}
 
-		// show json error
-		if erd, ok := jr["error"]; ok {
-			w.Write([]byte(fmt.Sprintf("ERROR: %s<br/>\n", erd)))
-		}
-
 		// show json access token
-		if at, ok := jr["access_token"]; ok {
-			w.Write([]byte(fmt.Sprintf("ACCESS TOKEN: %s<br/>\n", at)))
+		if jr != nil {
+			w.Write([]byte(fmt.Sprintf("ACCESS TOKEN: %s<br/>\n", jr.AccessToken)))
+			if jr.RefreshToken != "" {
+				w.Write([]byte(fmt.Sprintf("REFRESH TOKEN: %s<br/>\n", jr.RefreshToken)))
+			}
 		}
 
 		w.Write([]byte(fmt.Sprintf("FULL RESULT: %+v<br/>\n", jr)))
-
-		// output links
-		w.Write([]byte(fmt.Sprintf("<a href=\"%s\">Goto Token URL</a><br/>", aurl)))
 
 		cururl := *r.URL
 		curq := cururl.Query()
@@ -123,12 +128,3 @@ func main() {
 
 	http.ListenAndServe(":14000", nil)
 }
-
-// type AccessToken struct {
-// 	Id        string    `json:"id"`
-// 	UserId    string    `json:"user_id"`
-// 	ClientId  string    `json:"client_id"`
-// 	Name      string    `json:"name"`
-// 	Scopes    []string  `json:"scope"`
-// 	ExpiresAt time.Time `json:"expires_at"`
-// }

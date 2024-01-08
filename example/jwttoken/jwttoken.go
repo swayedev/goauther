@@ -123,12 +123,3 @@ func main() {
 
 	http.ListenAndServe(":14000", nil)
 }
-
-// type AccessToken struct {
-// 	Id        string    `json:"id"`
-// 	UserId    string    `json:"user_id"`
-// 	ClientId  string    `json:"client_id"`
-// 	Name      string    `json:"name"`
-// 	Scopes    []string  `json:"scope"`
-// 	ExpiresAt time.Time `json:"expires_at"`
-// }

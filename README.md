@@ -1,3 +1,3 @@
-# Golang OAuth2 server library
+# Goauther - oAuth2 server library
 
 ![OAuth Mascot](./oauth_mascot_ai.png)

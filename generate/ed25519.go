@@ -8,7 +8,7 @@ import (
 )
 
 // Generate ED25519 Key
-func GenerateEd25519Keys() (privateKey []byte, publicKey []byte, err error) {
+func GenerateEd25519PemKeys() (privateKey []byte, publicKey []byte, err error) {
 	// Generate the private and public keys
 	pubKey, priKey, err := ed25519.GenerateKey(rand.Reader)
 	if err != nil {
@@ -37,3 +37,6 @@ func GenerateEd25519Keys() (privateKey []byte, publicKey []byte, err error) {
 
 	return privKeyPEM, pubKeyPEM, nil
 }
+
+// return priKey.(ed25519.PrivateKey), nil
+// return pubKey.(ed25519.PublicKey), nil

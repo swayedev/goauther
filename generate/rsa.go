@@ -8,7 +8,7 @@ import (
 )
 
 // Generate RSA Key
-func GenerateRsaKeys() (privateKey []byte, publicKey []byte, err error) {
+func GenerateRsaPemKeys() (privateKey []byte, publicKey []byte, err error) {
 	rsaKey, err := rsa.GenerateKey(rand.Reader, 2048)
 	if err != nil {
 		return nil, nil, err

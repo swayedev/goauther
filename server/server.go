@@ -4,6 +4,8 @@ import (
 	"errors"
 	"net/http"
 	"time"
+
+	"github.com/swayedev/oauth/models"
 )
 
 // Server is an OAuth2 implementation
@@ -12,6 +14,7 @@ type Server struct {
 	Storage           Storage
 	AuthorizeTokenGen AuthorizeTokenGen
 	AccessTokenGen    AccessTokenGen
+	Certificate       models.Certificate
 	Now               func() time.Time
 	Logger            Logger
 }
@@ -23,6 +26,7 @@ func NewServer(config *ServerConfig, storage Storage) *Server {
 		Storage:           storage,
 		AuthorizeTokenGen: &AuthorizeTokenGenDefault{},
 		AccessTokenGen:    &AccessTokenGenDefault{},
+		Certificate:       &models.CertificateKey{},
 		Now:               time.Now,
 		Logger:            &LoggerDefault{},
 	}

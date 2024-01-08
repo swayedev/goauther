@@ -3,8 +3,8 @@ package config_test
 import (
 	"testing"
 
-	"github.com/swayedev/oauth/config"
-	"github.com/swayedev/oauth/models"
+	"github.com/swayedev/goauther/config"
+	"github.com/swayedev/goauther/models"
 )
 
 func TestCertFromString(t *testing.T) {

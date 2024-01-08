@@ -8,8 +8,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/swayedev/oauth/example"
-	oauth "github.com/swayedev/oauth/server"
+	"github.com/swayedev/goauther/example"
+	oauth "github.com/swayedev/goauther/server"
 	"golang.org/x/oauth2"
 )
 

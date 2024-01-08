@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/swayedev/oauth/models"
+	"github.com/swayedev/goauther/models"
 )
 
 // Server is an OAuth2 implementation

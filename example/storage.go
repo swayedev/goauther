@@ -3,7 +3,7 @@ package example
 import (
 	"fmt"
 
-	"github.com/swayedev/oauth/server"
+	"github.com/swayedev/goauther/server"
 )
 
 type TestStorage struct {

@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/swayedev/oauth/example"
-	oauth "github.com/swayedev/oauth/server"
+	"github.com/swayedev/goauther/example"
+	oauth "github.com/swayedev/goauther/server"
 )
 
 func main() {

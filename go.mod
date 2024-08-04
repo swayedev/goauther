@@ -1,4 +1,4 @@
-module github.com/swayedev/oauth
+module github.com/swayedev/goauther
 
 go 1.20
 

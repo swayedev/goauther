@@ -1,6 +1,6 @@
 package models
 
-import "github.com/swayedev/oauth/parser"
+import "github.com/swayedev/goauther/parser"
 
 type Certificate interface {
 	SetPrivateKey(privateKey []byte)

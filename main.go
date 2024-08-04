@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/swayedev/oauth/config"
+	"github.com/swayedev/goauther/config"
 )
 
 func main() {

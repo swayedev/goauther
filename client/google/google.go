@@ -3,7 +3,7 @@ package google
 import (
 	"encoding/json"
 
-	"github.com/swayedev/oauth/scopes"
+	"github.com/swayedev/goauther/scopes"
 	"golang.org/x/oauth2"
 )
 

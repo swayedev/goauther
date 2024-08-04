@@ -8,7 +8,7 @@ import (
 	"errors"
 	"os"
 
-	"github.com/swayedev/oauth/models"
+	"github.com/swayedev/goauther/models"
 )
 
 func GetCert() (models.Certificate, error) {

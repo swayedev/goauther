@@ -1,6 +1,6 @@
 package generate
 
-import "github.com/swayedev/oauth/models"
+import "github.com/swayedev/goauther/models"
 
 func GenerateCertificate(algorithm string) (cert models.Certificate, err error) {
 	switch algorithm {

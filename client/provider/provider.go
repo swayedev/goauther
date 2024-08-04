@@ -13,6 +13,10 @@ type OAuthContent struct {
 	Content []byte
 }
 
+// GetOAuthInfo retrieves the OAuth information from the specified API using the provided token.
+// It makes a GET request to the API with the token's access token as the authorization header.
+// The response body is read and returned as a byte slice.
+// If any error occurs during the process, it is returned along with a nil byte slice.
 func GetOAuthInfo(tokenType string, token *oauth2.Token, api string) ([]byte, error) {
 	authToken := "token " + token.AccessToken
 	if tokenType == "Bearer" {
@@ -41,6 +45,9 @@ func GetOAuthInfo(tokenType string, token *oauth2.Token, api string) ([]byte, er
 	return contents, nil
 }
 
+// GetOAuthInfoWithToken retrieves OAuth information with the provided token.
+// It makes a request to the specified API using the given token and token type.
+// It returns the OAuth content and any error encountered during the process.
 func GetOAuthInfoWithToken(tokenType string, token *oauth2.Token, api string) (*OAuthContent, error) {
 	contents, err := GetOAuthInfo(tokenType, token, api)
 	if err != nil {

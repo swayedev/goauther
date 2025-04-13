@@ -10,8 +10,8 @@ type Client struct {
 	http.Client
 }
 
-// NewClient creates a new mTLS-enabled client.
-func NewClient(config *Config) (*Client, error) {
+// NewClient creates a new mTLS-enabled client with optional configurations.
+func NewClient(config *Config, options ...func(*http.Client)) (*Client, error) {
 	tlsConfig, err := config.GetTLSConfig(tls.NoClientCert)
 	if err != nil {
 		return nil, err
@@ -21,6 +21,11 @@ func NewClient(config *Config) (*Client, error) {
 		Transport: &http.Transport{
 			TLSClientConfig: tlsConfig,
 		},
+	}
+
+	// Apply custom options to the client
+	for _, option := range options {
+		option(client)
 	}
 
 	return &Client{*client}, nil

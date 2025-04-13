@@ -3,7 +3,7 @@ package microsoft
 import (
 	"encoding/json"
 
-	"github.com/swayedev/goauther/scopes"
+	"github.com/swayedev/goauther/oauth/scopes"
 	"golang.org/x/oauth2"
 )
 
